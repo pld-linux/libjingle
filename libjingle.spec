@@ -21,6 +21,8 @@ BuildRequires:	libstdc++-devel
 BuildRequires:	libtool
 BuildRequires:	ortp-devel
 BuildRequires:	speex-devel
+BuildRequires:	expat-devel
+#BuildRequires:	
 #BuildRequires:	
 #Requires(postun):	-
 #Requires(pre,post):	-
@@ -72,7 +74,6 @@ applications.
 %patch0 -p0
 
 %build
-%{__gettextize}
 %{__libtoolize}
 %{__aclocal}
 %{__autoconf}
@@ -80,6 +81,7 @@ applications.
 %{__automake}
 cp -f /usr/share/automake/config.sub .
 CFLAGS="%{rpmcflags} -I%{_includedir}/speex"
+CXXFLAGS=${CFLAGS}
 %configure \
 	--with-speex="%{_prefix}" \
 	--with-ilbc="%{_prefix}"
@@ -91,9 +93,6 @@ CFLAGS="%{rpmcflags} -I%{_includedir}/speex"
 
 %install
 rm -rf $RPM_BUILD_ROOT
-# create directories if necessary
-#install -d $RPM_BUILD_ROOT
-#install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -106,7 +105,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS CREDITS ChangeLog NEWS README THANKS TODO
+%doc AUTHORS ChangeLog COPYING DOCUMENTATION NEWS README
+%attr(755,root,root) %{_bindir}/*
 
 %if 0
 # if _sysconfdir != /etc:
@@ -116,17 +116,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}
 %endif
 
-# initscript and its config
-%if %{with initscript}
-%attr(754,root,root) /etc/rc.d/init.d/%{name}
-%config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/%{name}
-%endif
-
-#%{_examplesdir}/%{name}-%{version}
-
-%if %{with subpackage}
-%files subpackage
-%defattr(644,root,root,755)
+#%files subpackage
+#%defattr(644,root,root,755)
 #%doc extras/*.gz
 #%{_datadir}/%{name}-ext
-%endif
