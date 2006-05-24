@@ -1,7 +1,3 @@
-#
-# Conditional build:
-%bcond_with	tests		# build with tests
-#
 Summary:	Google Talk's implementation of Jingle and Jingle-Audio
 Summary(pl):	Implementacja Jingle i Jingle-Audio programu Google Talk
 Name:		libjingle
@@ -14,23 +10,14 @@ Source0:	http://dl.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 #https://sourceforge.net/tracker/index.php?func=detail&aid=1483115&group_id=155094&atid=794430
 Patch0:		%{name}-ortp.patch
 URL:		http://code.google.com/apis/talk/
-#BuildRequires:	-
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	expat-devel
+BuildRequires:	libilbc
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool
 BuildRequires:	ortp-devel
 BuildRequires:	speex-devel
-BuildRequires:	expat-devel
-#BuildRequires:	
-#BuildRequires:	
-#Requires(postun):	-
-#Requires(pre,post):	-
-#Requires(preun):	-
-#Requires:	-
-#Provides:	-
-#Provides:	group(foo)
-#Provides:	user(foo)
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
