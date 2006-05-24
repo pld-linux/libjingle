@@ -3,7 +3,7 @@
 %bcond_with	tests		# build with tests
 #
 Summary:	Google Talk's implementation of Jingle and Jingle-Audio
-#Summary(pl):	-
+Summary(pl):	Implementacja Jingle i Jingle-Audio programu Google Talk
 Name:		libjingle
 Version:	0.3.0
 Release:	0.1
