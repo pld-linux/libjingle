@@ -1,14 +1,12 @@
 Summary:	Google Talk's implementation of Jingle and Jingle-Audio
 Summary(pl):	Implementacja Jingle i Jingle-Audio programu Google Talk
 Name:		libjingle
-Version:	0.3.0
-Release:	0.1
+Version:	0.3.10
+Release:	1
 License:	BSD
 Group:		Applications
-Source0:	http://dl.sourceforge.net/libjingle/%{name}-%{version}.tar.gz
-# Source0-md5:	668f5c36bef2b6ac7d5ebfb4e22f6f74
-#https://sourceforge.net/tracker/index.php?func=detail&aid=1483115&group_id=155094&atid=794430
-Patch0:		%{name}-ortp.patch
+Source0:	http://dl.sourceforge.net/tapioca-voip/%{name}-%{version}.tar.gz
+# Source0-md5:	7ee7d8c834f1e06093130a86cbb9e79a
 URL:		http://code.google.com/apis/talk/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -44,9 +42,21 @@ jest kilka komponentów ogólnego przeznaczenia, takich jak stos P2P,
 który mo¿e byæ wykorzystany do tworzenia ró¿nych aplikacji do
 komunikacji i wspó³pracy.
 
+%package devel
+Summary:	Libraries and include files for applications using libjingle
+Summary(pl):	Pliki nag³ówkowe dla aplikacji korzystaj±cych z libjingle
+Group:		Development/Libraries
+Requires:	%{name}-libs = %{version}-%{release}
+
+%description devel
+This package provides the necessary development libraries and include
+files to allow you to compile applications using libjingle.
+
+%description devel -l pl
+Biblioteki i pliki nag³ówkowe potrzebne do programowania.
+
 %prep
 %setup -q
-%patch0 -p0
 
 %build
 %{__libtoolize}
@@ -77,3 +87,10 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog COPYING DOCUMENTATION NEWS README
 %attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_libdir}/lib*.so.*.*
+
+%files devel
+%defattr(644,root,root,755)
+%{_libdir}/libjingle*.la
+%{_includedir}/*
+%{_pkgconfigdir}/*.pc
