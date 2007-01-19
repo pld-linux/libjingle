@@ -46,7 +46,7 @@ komunikacji i wspó³pracy.
 Summary:	Libraries and include files for applications using libjingle
 Summary(pl):	Pliki nag³ówkowe dla aplikacji korzystaj±cych z libjingle
 Group:		Development/Libraries
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 
 %description devel
 This package provides the necessary development libraries and include
