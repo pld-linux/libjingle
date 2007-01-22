@@ -11,11 +11,11 @@ URL:		http://code.google.com/apis/talk/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	expat-devel
-BuildRequires:	libilbc-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool
-BuildRequires:	ortp-devel
-BuildRequires:	speex-devel
+BuildRequires:	openssl-devel >= 0.9.7g
+BuildRequires:	pkgconfig
+Requires:	openssl >= 0.9.7g
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -43,17 +43,19 @@ który mo¿e byæ wykorzystany do tworzenia ró¿nych aplikacji do
 komunikacji i wspó³pracy.
 
 %package devel
-Summary:	Libraries and include files for applications using libjingle
-Summary(pl):	Pliki nag³ówkowe dla aplikacji korzystaj±cych z libjingle
+Summary:	Header files for libjingle library
+Summary(pl):	Pliki nag³ówkowe biblioteki libjingle
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	libstdc++-devel
+Requires:	openssl-devel >= 0.9.7g
 
 %description devel
-This package provides the necessary development libraries and include
-files to allow you to compile applications using libjingle.
+This package provides the necessary header files allow you to compile
+applications using libjingle.
 
 %description devel -l pl
-Biblioteki i pliki nag³ówkowe potrzebne do programowania.
+Pliki nag³ówkowe potrzebne do programowania z u¿yciem libjingle.
 
 %prep
 %setup -q
@@ -64,11 +66,7 @@ Biblioteki i pliki nag³ówkowe potrzebne do programowania.
 %{__autoconf}
 %{__autoheader}
 %{__automake}
-CFLAGS="%{rpmcflags} -I%{_includedir}/speex"
-CXXFLAGS="${CFLAGS}"
-%configure \
-	--with-speex="%{_prefix}" \
-	--with-ilbc="%{_prefix}"
+%configure
 %{__make}
 
 %install
