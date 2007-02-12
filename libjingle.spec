@@ -1,5 +1,5 @@
 Summary:	Google Talk's implementation of Jingle and Jingle-Audio
-Summary(pl):	Implementacja Jingle i Jingle-Audio programu Google Talk
+Summary(pl.UTF-8):   Implementacja Jingle i Jingle-Audio programu Google Talk
 Name:		libjingle
 Version:	0.3.10
 Release:	1
@@ -30,21 +30,21 @@ several general purpose components in the library such as the P2P
 stack which can be used to build a variety of communication and
 collaboration applications.
 
-%description -l pl
-libjingle to zestaw komponentÛw C++ udostÍpnionych przez Google do
-wspÛ≥pracy z us≥ugami peer-to-peer i voice Google Talk. Pakiet zawiera
-implementacje Google Jingle i Jingle-Audio - dwÛch proponowanych
-rozszerzeÒ standardu XMPP, aktualnie dostÍpnych w postaci
+%description -l pl.UTF-8
+libjingle to zestaw komponent√≥w C++ udostƒôpnionych przez Google do
+wsp√≥≈Çpracy z us≈Çugami peer-to-peer i voice Google Talk. Pakiet zawiera
+implementacje Google Jingle i Jingle-Audio - dw√≥ch proponowanych
+rozszerze≈Ñ standardu XMPP, aktualnie dostƒôpnych w postaci
 eksperymentalnego szkicu.
 
-OprÛcz umoøliwienia wspÛ≥pracy z Google Talk w bibliotece dostÍpne
-jest kilka komponentÛw ogÛlnego przeznaczenia, takich jak stos P2P,
-ktÛry moøe byÊ wykorzystany do tworzenia rÛønych aplikacji do
-komunikacji i wspÛ≥pracy.
+Opr√≥cz umo≈ºliwienia wsp√≥≈Çpracy z Google Talk w bibliotece dostƒôpne
+jest kilka komponent√≥w og√≥lnego przeznaczenia, takich jak stos P2P,
+kt√≥ry mo≈ºe byƒá wykorzystany do tworzenia r√≥≈ºnych aplikacji do
+komunikacji i wsp√≥≈Çpracy.
 
 %package devel
 Summary:	Header files for libjingle library
-Summary(pl):	Pliki nag≥Ûwkowe biblioteki libjingle
+Summary(pl.UTF-8):   Pliki nag≈Ç√≥wkowe biblioteki libjingle
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	libstdc++-devel
@@ -54,8 +54,8 @@ Requires:	openssl-devel >= 0.9.7g
 This package provides the necessary header files allow you to compile
 applications using libjingle.
 
-%description devel -l pl
-Pliki nag≥Ûwkowe potrzebne do programowania z uøyciem libjingle.
+%description devel -l pl.UTF-8
+Pliki nag≈Ç√≥wkowe potrzebne do programowania z u≈ºyciem libjingle.
 
 %prep
 %setup -q
