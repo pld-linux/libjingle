@@ -1,5 +1,5 @@
 Summary:	Google Talk's implementation of Jingle and Jingle-Audio
-Summary(pl.UTF-8):   Implementacja Jingle i Jingle-Audio programu Google Talk
+Summary(pl.UTF-8):	Implementacja Jingle i Jingle-Audio programu Google Talk
 Name:		libjingle
 Version:	0.3.10
 Release:	1
@@ -44,7 +44,7 @@ komunikacji i współpracy.
 
 %package devel
 Summary:	Header files for libjingle library
-Summary(pl.UTF-8):   Pliki nagłówkowe biblioteki libjingle
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libjingle
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	libstdc++-devel
