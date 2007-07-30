@@ -1,12 +1,12 @@
 Summary:	Google Talk's implementation of Jingle and Jingle-Audio
 Summary(pl.UTF-8):	Implementacja Jingle i Jingle-Audio programu Google Talk
 Name:		libjingle
-Version:	0.3.10
+Version:	0.3.11
 Release:	1
 License:	BSD
 Group:		Applications
 Source0:	http://dl.sourceforge.net/tapioca-voip/%{name}-%{version}.tar.gz
-# Source0-md5:	7ee7d8c834f1e06093130a86cbb9e79a
+# Source0-md5:	f9602b2dbca1e13dfe0b15e9188b4442
 URL:		http://code.google.com/apis/talk/
 BuildRequires:	autoconf
 BuildRequires:	automake
