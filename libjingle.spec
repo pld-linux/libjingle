@@ -8,10 +8,12 @@ Group:		Applications
 Source0:	http://libjingle.googlecode.com/files/%{name}-%{version}.tar.gz
 # Source0-md5:	4fd81566ead30285e157a7fa16430b6e
 URL:		http://code.google.com/p/libjingle/
+BuildRequires:	alsa-lib-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	expat-devel
 BuildRequires:	glib-devel
+BuildRequires:	gtk+2-devel
 BuildRequires:	libilbc-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool
@@ -63,6 +65,24 @@ Pliki nagłówkowe potrzebne do programowania z użyciem libjingle.
 
 %prep
 %setup -q
+
+# bashism
+sed 's/^\([A-Z]*\)+=\(.*\)/\1="$\1 \2"/' -i configure.ac
+
+# outdated C++ style
+sed '1i\#include <string.h>\n#include <stdlib.h>\n#include <stdio.h>' \
+	-i talk/base/{basictypes.h,stringutils.h,cryptstring.h}
+sed 's/std::exit/exit/; 1i\#include <stdlib.h>' -i talk/base/host.cc
+sed 's/Base64:://' -i talk/base/base64.h
+sed 's/Traits<char>:://' -i talk/base/stringutils.h
+sed '1i\#include <malloc.h>\n#include <string.h>' -i talk/base/urlencode.cc
+sed 's/std::\(strerror\|memcmp\|memcpy\)/\1/' \
+	-i talk/base/{asynctcpsocket.cc,socketadapters.cc} \
+	-i talk/base/{natsocketfactory.cc,natserver.cc,testclient.cc} \
+	-i talk/p2p/base/{stun.cc,port.cc,relayport.cc,relayserver_main.cc,stunserver.cc,stunserver_main.cc,session_unittest.cc}
+
+sed 's/XmppClient:://' -i talk/xmpp/xmppclient.h
+sed 's/SessionManager:://' -i talk/p2p/base/sessionmanager.h
 
 %build
 %{__libtoolize}
