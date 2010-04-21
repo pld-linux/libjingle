@@ -2,7 +2,7 @@ Summary:	Google Talk's implementation of Jingle and Jingle-Audio
 Summary(pl.UTF-8):	Implementacja Jingle i Jingle-Audio programu Google Talk
 Name:		libjingle
 Version:	0.4.0
-Release:	3
+Release:	4
 License:	BSD
 Group:		Applications
 Source0:	http://libjingle.googlecode.com/files/%{name}-%{version}.tar.gz
