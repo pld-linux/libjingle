@@ -1,0 +1,11 @@
+--- libjingle-0.4.0/talk/base/openssladapter.cc.wiget	2010-04-22 03:45:09.473187730 +0200
++++ libjingle-0.4.0/talk/base/openssladapter.cc	2010-04-22 03:45:33.396338973 +0200
+@@ -641,7 +641,7 @@ OpenSSLAdapter::SSLPostConnectionCheck(S
+     int extension_nid = OBJ_obj2nid(X509_EXTENSION_get_object(extension));
+ 
+     if (extension_nid == NID_subject_alt_name) {
+-      X509V3_EXT_METHOD* meth = X509V3_EXT_get(extension);
++      const X509V3_EXT_METHOD* meth = X509V3_EXT_get(extension);
+       if (!meth)
+         break;
+ 
