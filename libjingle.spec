@@ -8,6 +8,7 @@ Group:		Applications
 Source0:	http://libjingle.googlecode.com/files/%{name}-%{version}.tar.gz
 # Source0-md5:	4fd81566ead30285e157a7fa16430b6e
 URL:		http://code.google.com/p/libjingle/
+Patch0:		libjingle-openssl1.patch
 BuildRequires:	alsa-lib-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -65,6 +66,7 @@ Pliki nagłówkowe potrzebne do programowania z użyciem libjingle.
 
 %prep
 %setup -q
+%patch0 -p1
 
 # bashism
 sed 's/^\([A-Z]*\)+=\(.*\)/\1="$\1 \2"/' -i configure.ac
