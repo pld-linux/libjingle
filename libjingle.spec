@@ -40,7 +40,7 @@ BuildRequires:	ortp-devel
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.583
 BuildRequires:	speex-devel
-BuildRequires:	srtp-devel
+BuildRequires:	srtp-devel >= 1.4.4
 Requires:	openssl >= 0.9.7g
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
