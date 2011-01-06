@@ -25,6 +25,7 @@ Patch11:	fixconflict.patch
 Patch12:	64bittypes.patch
 Patch13:	qname-threadsafe.patch
 # /fedora patches
+Patch100:	bashism.patch
 BuildRequires:	alsa-lib-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -101,8 +102,7 @@ Pliki nagłówkowe potrzebne do programowania z użyciem libjingle.
 %patch12 -p1
 %patch13 -p1
 
-# bashism
-sed 's/\([A-Z]*\)+=\(.*\)/\1="$\1 \2"/' -i configure.ac
+%patch100 -p1
 
 %build
 %{__libtoolize}

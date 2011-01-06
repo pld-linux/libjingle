@@ -1,0 +1,13 @@
+--- libjingle-0.5.1/configure.ac~	2011-01-06 12:51:25.358586443 +0200
++++ libjingle-0.5.1/configure.ac	2011-01-06 12:51:00.286053622 +0200
+@@ -48,8 +48,8 @@
+     AC_SUBST(OPENSSL_LIBS)
+     AC_DEFINE(SSL_USE_OPENSSL, 1, [Using OpenSSL])
+     AC_DEFINE(FEATURE_ENABLE_SSL, 1, [SSL Enabled])
+-    CPPFLAGS+="$OPENSSL_CFLAGS"
+-    LDFLAGS+="$OPENSSL_LIBS"
++    CPPFLAGS="$CPPFLAGS "$OPENSSL_CFLAGS""
++    LDFLAGS="$LDFLAGS "$OPENSSL_LIBS""
+   else
+     AC_DEFINE(HAVE_OPENSSL_SSL_H, 0, [Did not find openssl/ssl.h])
+   fi
