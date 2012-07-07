@@ -1,15 +1,17 @@
-%define		apiver	0.5
+%define		apiver	0.6
 Summary:	Google Talk's implementation of Jingle and Jingle-Audio
 Summary(pl.UTF-8):	Implementacja Jingle i Jingle-Audio programu Google Talk
 Name:		libjingle
-Version:	0.5.1
+Version:	0.6.14
 Release:	1
 License:	BSD
 Group:		Applications
 Source0:	http://libjingle.googlecode.com/files/%{name}-%{version}.zip
-# Source0-md5:	a59bac5b6111afc79efd3d1e821c13d8
+# Source0-md5:	b3906436df810620ced9ea7ec300799d
 URL:		http://code.google.com/p/libjingle/
 # fedora patches
+# fedora loves to keep patch for every libjingle version, like they're not using VCS
+# awk -vf=~/fc/libjingle '/^Patch/{s=d=$NF;sub(/libjingle-[0-9]+\.[0-9]+\.[0-9]+-/, "", d); printf("cp %s/%s %s\n", f, s, d)}' ~/fc/libjingle/libjingle.spec | sh
 Patch0:		build-sanity.patch
 Patch1:		C-linkage-fix.patch
 Patch2:		NULL-fix.patch
@@ -19,13 +21,17 @@ Patch5:		timefix.patch
 Patch6:		unixfilesystemfix.patch
 Patch7:		system-expat.patch
 Patch8:		system-srtp.patch
-Patch9:		devicemanager-alsafix.patch
+Patch9:		devicemanager-fix.patch
 Patch10:	v4llookup-fix.patch
 Patch11:	fixconflict.patch
-Patch12:	64bittypes.patch
-Patch13:	qname-threadsafe.patch
+Patch14:	config-linux.patch
+Patch16:	compilefix.patch
+Patch17:	size_t.patch
+Patch18:	fixmacro.patch
+Patch20:	unistd.patch
 # /fedora patches
 Patch100:	bashism.patch
+Patch101:	time-timeutils.patch
 BuildRequires:	alsa-lib-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -41,11 +47,16 @@ BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.583
 BuildRequires:	speex-devel
 BuildRequires:	srtp-devel >= 1.4.4
+BuildRequires:	udev-devel
 BuildRequires:	unzip
+BuildRequires:	xorg-lib-libXcomposite-devel
+BuildRequires:	xorg-lib-libXrender-devel
 Requires:	openssl >= 0.9.7g
+ExclusiveArch:	%{ix86} %{x8664} %{arm}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		skip_post_check_so	libjinglebase.so.*.*.* libjinglexmpp.so.1.0.0 libjinglep2pbase.so.1.0.0 libjinglep2pclient.so.1.0.0 libjinglesessiontunnel.so.1.0.0 libjinglesessionphone.so.1.0.0
+# TODO: check if something can be fixed
+%define		skip_post_check_so	libjinglebase.so.*.*.* libjinglexmpp.so.1.0.0 libjinglep2pbase.so.1.0.0 libjinglep2pclient.so.1.0.0 libjinglesessiontunnel.so.1.0.0 libjinglesessionphone.so.1.0.0 libjinglesound.so.1.0.0
 
 %description
 Libjingle is a set of C++ components provided by Google to
@@ -76,8 +87,12 @@ Summary:	Header files for libjingle library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libjingle
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	expat-devel
+Requires:	gtk+2-devel
 Requires:	libstdc++-devel
 Requires:	openssl-devel >= 0.9.7g
+Requires:	srtp-devel
+Requires:	xorg-lib-libXrender-devel
 
 %description devel
 This package provides the necessary header files allow you to compile
@@ -100,10 +115,15 @@ Pliki nagłówkowe potrzebne do programowania z użyciem libjingle.
 %patch9 -p1
 %patch10 -p1
 %patch11 -p1
-%patch12 -p1
-%patch13 -p1
+%patch14 -p1
+%patch16 -p1
+%patch17 -p1
+%patch18 -p1
+%patch20 -p1
 
 %patch100 -p1
+%patch101 -p1
+%{__rm} talk/base/time.h
 
 %build
 %{__libtoolize}
@@ -117,9 +137,11 @@ Pliki nagłówkowe potrzebne do programowania z użyciem libjingle.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
+
+# .pc exists so remove .la
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/*.la
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -142,6 +164,8 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %{_libdir}/libjinglesessionphone.so.1
 %attr(755,root,root) %{_libdir}/libjinglesessiontunnel.so.*.*.*
 %ghost %{_libdir}/libjinglesessiontunnel.so.1
+%attr(755,root,root) %{_libdir}/libjinglesound.so.*.*.*
+%ghost %{_libdir}/libjinglesound.so.1
 %attr(755,root,root) %{_libdir}/libjinglexmllite.so.*.*.*
 %ghost %{_libdir}/libjinglexmllite.so.1
 %attr(755,root,root) %{_libdir}/libjinglexmpp.so.*.*.*
@@ -154,15 +178,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libjinglep2pclient.so
 %{_libdir}/libjinglesessionphone.so
 %{_libdir}/libjinglesessiontunnel.so
+%{_libdir}/libjinglesound.so
 %{_libdir}/libjinglexmllite.so
 %{_libdir}/libjinglexmpp.so
-%{_libdir}/libjinglebase.la
-%{_libdir}/libjinglep2pbase.la
-%{_libdir}/libjinglep2pclient.la
-%{_libdir}/libjinglesessionphone.la
-%{_libdir}/libjinglesessiontunnel.la
-%{_libdir}/libjinglexmllite.la
-%{_libdir}/libjinglexmpp.la
 %{_includedir}/libjingle-%{apiver}
 %{_pkgconfigdir}/jinglebase-%{apiver}.pc
 %{_pkgconfigdir}/jinglep2p-%{apiver}.pc

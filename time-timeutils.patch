@@ -1,0 +1,45 @@
+time.h and timeutils.h are basically identical content, but including both will
+cause symbol conflicts. use only timeutils.h
+
+In file included from ../../talk/base/bandwidthsmoother.h:32:0,
+                 from bandwidthsmoother.cc:28:
+../../talk/base/timeutils.h:39:20: error: redefinition of 'const int64 talk_base::kNumMillisecsPerSec'
+./time.h:39:20: error: 'const int64 talk_base::kNumMillisecsPerSec' previously defined here
+../../talk/base/timeutils.h:40:20: error: redefinition of 'const int64 talk_base::kNumMicrosecsPerSec'
+./time.h:40:20: error: 'const int64 talk_base::kNumMicrosecsPerSec' previously defined here
+../../talk/base/timeutils.h:41:20: error: redefinition of 'const int64 talk_base::kNumNanosecsPerSec'
+./time.h:41:20: error: 'const int64 talk_base::kNumNanosecsPerSec' previously defined here
+../../talk/base/timeutils.h:43:20: error: redefinition of 'const int64 talk_base::kNumMicrosecsPerMillisec'
+./time.h:43:20: error: 'const int64 talk_base::kNumMicrosecsPerMillisec' previously defined here
+../../talk/base/timeutils.h:45:20: error: redefinition of 'const int64 talk_base::kNumNanosecsPerMillisec'
+./time.h:45:20: error: 'const int64 talk_base::kNumNanosecsPerMillisec' previously defined here
+../../talk/base/timeutils.h: In function 'uint32 talk_base::TimeMax(uint32, uint32)':
+../../talk/base/timeutils.h:65:15: error: redefinition of 'uint32 talk_base::TimeMax(uint32, uint32)'
+./time.h:65:15: error: 'uint32 talk_base::TimeMax(uint32, uint32)' previously defined here
+../../talk/base/timeutils.h: In function 'uint32 talk_base::TimeMin(uint32, uint32)':
+../../talk/base/timeutils.h:70:15: error: redefinition of 'uint32 talk_base::TimeMin(uint32, uint32)'
+
+NOTE: talk/base/time.h needs to be removed too, this is done currently in .spec
+
+--- libjingle-0.6.14/talk/base/time.cc~	2012-02-29 02:22:45.000000000 +0200
++++ libjingle-0.6.14/talk/base/time.cc	2012-07-07 10:08:24.747738559 +0300
+@@ -35,7 +35,7 @@
+ #endif
+ 
+ #include "talk/base/common.h"
+-#include "talk/base/time.h"
++#include "talk/base/timeutils.h"
+ 
+ #define EFFICIENT_IMPLEMENTATION 1
+ 
+--- libjingle-0.6.14/talk/base/time_unittest.cc~	2012-02-29 02:22:45.000000000 +0200
++++ libjingle-0.6.14/talk/base/time_unittest.cc	2012-07-07 10:11:18.339268179 +0300
+@@ -28,7 +28,7 @@
+ #include "talk/base/common.h"
+ #include "talk/base/gunit.h"
+ #include "talk/base/thread.h"
+-#include "talk/base/time.h"
++#include "talk/base/timeutils.h"
+ 
+ namespace talk_base {
+ 

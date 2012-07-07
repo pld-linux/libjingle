@@ -1,11 +1,12 @@
-diff -up libjingle-0.5.1/talk/base/event.cc.NULL libjingle-0.5.1/talk/base/event.cc
---- libjingle-0.5.1/talk/base/event.cc.NULL	2010-11-18 16:02:08.333762000 -0500
-+++ libjingle-0.5.1/talk/base/event.cc	2010-11-18 16:02:17.010762001 -0500
+diff -up libjingle-0.5.8/talk/base/event.cc.NULL libjingle-0.5.8/talk/base/event.cc
+--- libjingle-0.5.8/talk/base/event.cc.NULL	2011-07-25 11:36:53.561334546 -0400
++++ libjingle-0.5.8/talk/base/event.cc	2011-07-25 11:38:10.157417620 -0400
 @@ -26,6 +26,7 @@
   */
  
  #include "talk/base/event.h"
-+#include <cstdlib>
++#include <stdlib.h>
  
  #if defined(WIN32)
  #include <windows.h>
+diff -up libjingle-0.5.8/talk/base/sigslot.h.NULL libjingle-0.5.8/talk/base/sigslot.h
