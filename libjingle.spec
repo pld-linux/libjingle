@@ -3,7 +3,7 @@ Summary:	Google Talk's implementation of Jingle and Jingle-Audio
 Summary(pl.UTF-8):	Implementacja Jingle i Jingle-Audio programu Google Talk
 Name:		libjingle
 Version:	0.6.14
-Release:	3
+Release:	4
 License:	BSD
 Group:		Applications
 Source0:	http://libjingle.googlecode.com/files/%{name}-%{version}.zip
@@ -52,7 +52,7 @@ BuildRequires:	unzip
 BuildRequires:	xorg-lib-libXcomposite-devel
 BuildRequires:	xorg-lib-libXrender-devel
 Requires:	openssl >= 0.9.7g
-ExclusiveArch:	%{ix86} %{x8664} %{arm}
+ExclusiveArch:	%{ix86} %{x8664} %{arm} x32
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 # TODO: check if something can be fixed
