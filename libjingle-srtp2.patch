@@ -1,0 +1,69 @@
+--- libjingle-0.6.14/configure.ac.orig	2021-03-02 21:47:58.773423197 +0100
++++ libjingle-0.6.14/configure.ac	2021-03-02 22:12:18.325516125 +0100
+@@ -64,7 +64,10 @@
+   fi
+ fi
+ 
++PKG_CHECK_MODULES(LIBSRTP, libsrtp2 >= 2, [enable_srtp=yes
++AC_DEFINE([HAVE_SRTP2], [1], [SRTP is SRTP2])], [
+ PKG_CHECK_MODULES(LIBSRTP, libsrtp >= 1.4.4, enable_srtp=yes, enable_srtp=no)
++])
+ if test x$enable_srtp = xno ; then
+         HAVE_SRTP=no
+ else
+--- libjingle-0.6.14/talk/session/phone/srtpfilter.cc.orig	2012-02-28 16:22:42.000000000 +0100
++++ libjingle-0.6.14/talk/session/phone/srtpfilter.cc	2021-03-03 06:46:37.868335637 +0100
+@@ -26,6 +26,7 @@
+  */
+ 
+ #undef HAVE_CONFIG_H
++#include "config.h"
+ 
+ #include "talk/session/phone/srtpfilter.h"
+ 
+@@ -42,11 +43,18 @@
+ // #define SRTP_DEBUG
+ 
+ #ifdef HAVE_SRTP
+-#ifdef SRTP_RELATIVE_PATH
+-#include "srtp.h"  // NOLINT
++#ifdef HAVE_SRTP2
++#include <srtp2/srtp.h>
++#define err_status_ok srtp_err_status_ok
++#define err_status_auth_fail srtp_err_status_auth_fail
++#define err_status_replay_fail srtp_err_status_replay_fail
++#define err_status_replay_old srtp_err_status_replay_old
++#define crypto_policy_set_aes_cm_128_hmac_sha1_32 srtp_crypto_policy_set_aes_cm_128_hmac_sha1_32
++#define crypto_policy_set_aes_cm_128_hmac_sha1_80 srtp_crypto_policy_set_aes_cm_128_hmac_sha1_80
++#define ssrc_type_t srtp_ssrc_type_t
+ #else
+-#include "third_party/libsrtp/include/srtp.h"
+-#endif  // SRTP_RELATIVE_PATH
++#include <srtp.h>
++#endif  // HAVE_SRTP2
+ #ifdef _DEBUG
+ extern "C" debug_module_t mod_srtp;
+ extern "C" debug_module_t mod_auth;
+--- libjingle-0.6.14/pkgconfig/jinglesessionphone.pc.in.orig	2021-03-02 22:14:51.918017377 +0100
++++ libjingle-0.6.14/pkgconfig/jinglesessionphone.pc.in	2021-03-02 22:31:17.589344203 +0100
+@@ -7,6 +7,6 @@
+ Description: Jingle Session Phone Library
+ Requires:
+ Version: @VERSION@
+-Libs: -L${libdir} -lpthread -ljinglesessionphone -lsrtp
++Libs: -L${libdir} -lpthread -ljinglesessionphone @LIBSRTP_LIBS@
+ Cflags: -I${includedir}/libjingle-@LIBJINGLE_MAJORMINOR@ -DPOSIX
+ 
+--- libjingle-0.6.14/talk/session/phone/srtpfilter.h.orig	2012-02-28 16:22:42.000000000 +0100
++++ libjingle-0.6.14/talk/session/phone/srtpfilter.h	2021-03-03 19:25:24.358364152 +0100
+@@ -41,8 +41,8 @@
+ 
+ // Forward declaration to avoid pulling in libsrtp headers here
+ struct srtp_event_data_t;
+-struct srtp_ctx_t;
+-typedef srtp_ctx_t* srtp_t;
++struct srtp_ctx_t_;
++typedef srtp_ctx_t_* srtp_t;
+ struct srtp_policy_t;
+ 
+ namespace cricket {

@@ -5,10 +5,10 @@ Name:		libjingle
 Version:	0.6.14
 Release:	6
 License:	BSD
-Group:		Applications
+Group:		Applications/Communication
+#Source0Download: http://code.google.com/p/libjingle/downloads/list
 Source0:	http://libjingle.googlecode.com/files/%{name}-%{version}.zip
 # Source0-md5:	b3906436df810620ced9ea7ec300799d
-URL:		http://code.google.com/p/libjingle/
 # fedora patches
 # fedora loves to keep patch for every libjingle version, like they're not using VCS
 # awk -vf=~/fc/libjingle '/^Patch/{s=d=$NF;sub(/libjingle-[0-9]+\.[0-9]+\.[0-9]+-/, "", d); printf("cp %s/%s %s\n", f, s, d)}' ~/fc/libjingle/libjingle.spec | sh
@@ -20,7 +20,6 @@ Patch4:		uint32-fix.patch
 Patch5:		timefix.patch
 Patch6:		unixfilesystemfix.patch
 Patch7:		system-expat.patch
-Patch8:		system-srtp.patch
 Patch9:		devicemanager-fix.patch
 Patch10:	v4llookup-fix.patch
 Patch11:	fixconflict.patch
@@ -28,25 +27,26 @@ Patch14:	config-linux.patch
 Patch16:	compilefix.patch
 Patch17:	size_t.patch
 Patch18:	fixmacro.patch
+Patch19:	%{name}-srtp2.patch
 Patch20:	unistd.patch
+Patch21:	%{name}-sysmacros.patch
+Patch22:	%{name}-openssl-1.1.patch
 # /fedora patches
 Patch100:	bashism.patch
 Patch101:	time-timeutils.patch
+URL:		https://developers.google.com/talk/libjingle/developer_guide
 BuildRequires:	alsa-lib-devel
-BuildRequires:	autoconf
+BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
-BuildRequires:	expat-devel
-BuildRequires:	glib-devel
-BuildRequires:	gtk+2-devel
+BuildRequires:	expat-devel >= 1.95
+BuildRequires:	gtk+2-devel >= 2.0
 BuildRequires:	webrtc-libilbc-devel
+BuildRequires:	libsrtp2-devel >= 2.0
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool
 BuildRequires:	openssl-devel >= 0.9.7g
-BuildRequires:	ortp-devel
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.583
-BuildRequires:	speex-devel
-BuildRequires:	srtp-devel >= 1.4.4
 BuildRequires:	udev-devel
 BuildRequires:	unzip
 BuildRequires:	xorg-lib-libXcomposite-devel
@@ -88,10 +88,10 @@ Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libjingle
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	expat-devel
-Requires:	gtk+2-devel
+Requires:	gtk+2-devel >= 2.0
+Requires:	libsrtp2-devel
 Requires:	libstdc++-devel
 Requires:	openssl-devel >= 0.9.7g
-Requires:	srtp-devel
 Requires:	xorg-lib-libXrender-devel
 
 %description devel
@@ -111,7 +111,6 @@ Pliki nagłówkowe potrzebne do programowania z użyciem libjingle.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
-%patch8 -p1
 %patch9 -p1
 %patch10 -p1
 %patch11 -p1
@@ -119,7 +118,10 @@ Pliki nagłówkowe potrzebne do programowania z użyciem libjingle.
 %patch16 -p1
 %patch17 -p1
 %patch18 -p1
+%patch19 -p1
 %patch20 -p1
+%patch21 -p1
+%patch22 -p1
 
 %patch100 -p1
 %patch101 -p1
