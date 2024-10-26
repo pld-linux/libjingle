@@ -31,6 +31,7 @@ Patch19:	%{name}-srtp2.patch
 Patch20:	unistd.patch
 Patch21:	%{name}-sysmacros.patch
 Patch22:	%{name}-openssl-1.1.patch
+Patch23:	%{name}-openssl.patch
 # /fedora patches
 Patch100:	bashism.patch
 Patch101:	time-timeutils.patch
@@ -122,6 +123,7 @@ Pliki nagłówkowe potrzebne do programowania z użyciem libjingle.
 %patch20 -p1
 %patch21 -p1
 %patch22 -p1
+%patch23 -p1
 
 %patch100 -p1
 %patch101 -p1

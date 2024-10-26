@@ -1,0 +1,11 @@
+--- libjingle-0.6.14/talk/base/openssladapter.cc.orig	2024-10-26 18:22:52.660323208 +0200
++++ libjingle-0.6.14/talk/base/openssladapter.cc	2024-10-26 19:35:45.819965102 +0200
+@@ -754,7 +754,7 @@ bool OpenSSLAdapter::VerifyServerName(SS
+       value = NULL;
+ 
+       if (meth->it) {
+-        ASN1_item_free(reinterpret_cast<ASN1_VALUE*>(ext_str), meth->it);
++        ASN1_item_free(reinterpret_cast<ASN1_VALUE*>(ext_str), ASN1_ITEM_ptr(meth->it));
+       } else {
+         meth->ext_free(ext_str);
+       }
